@@ -6,6 +6,8 @@ Read this before changing anything under `packages/`. It assumes you know Cordis
 
 We recommend using an agent to explore the codebase and understand its architecture.
 
+![System overview](assets/architecture-subsystems.png)
+
 ## Cordis
 
 [Cordis](cordis-primer.md) is the framework under dsh: plugins contribute services, typed events, and reversible effects to a shared context. Every part of the product is a plugin, including the model adapter, the tool registry, the session log, and the agent loop itself, so each is replaceable from configuration.
@@ -105,6 +107,8 @@ turn/start
   -> agent/turn-stopping
 turn/end
 ```
+
+![Turn lifecycle](assets/agent-loop-lifecycle.png)
 
 `turn/*`, `step/*`, `system/message`, `user/message`, `assistant/message`, `assistant/attempt`, and `tool/*` are durable session events; the rest are live extension points across three domains. `agent/assistant-stream` publishes process-local start, transient chunk, and end frames. The loop commits the complete compact stream as one message or log-only attempt before a committed end frame, and the Web Session-follow adapter is the live event's only remote consumer. `agent/pre-step`, `agent/request`, `llm/stream`, and the three `tools/*` events are waterfalls, whose listeners must call `next()` to delegate; `agent/turn-stopping` is serial and has no `next()`.
 

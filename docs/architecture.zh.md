@@ -6,6 +6,8 @@
 
 建议使用 agent（智能体）探索代码库并理解其架构。
 
+![DeepSeek Harness 子系统与主要技术栈总览](assets/architecture-subsystems.png)
+
 ## Cordis
 
 [Cordis](cordis-primer.zh.md) 是 dsh 底层的框架：插件向共享上下文贡献服务、类型化事件和可逆的副作用。产品的每一部分都是插件，包括模型适配器、工具注册表、会话日志，以及 agent loop（智能体循环）本身，因此每个都可以从配置替换。
@@ -109,6 +111,8 @@ turn/start
   -> agent/turn-stopping
 turn/end
 ```
+
+![Agent Loop 轮次与步骤生命周期](assets/agent-loop-lifecycle.png)
 
 `turn/*`、`step/*`、`system/message`、`user/message`、`assistant/message`、`assistant/attempt` 和 `tool/*` 是持久会话事件；其余是分属三个事件域的实时扩展点。`agent/assistant-stream` 发布进程本地 start、瞬态 chunk 与 end frame。loop 会在 committed end frame 前把完整紧凑 stream 提交为一个 message 或仅日志 attempt；Web Session-follow adapter 是该 live event 唯一的远程消费方。`agent/pre-step`、`agent/request`、`llm/stream` 和三个 `tools/*` 事件是 waterfall（瀑布式事件），其监听器必须调用 `next()` 才能委托下去；`agent/turn-stopping` 是 serial 事件，没有 `next()`。
 

@@ -1,0 +1,186 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Agent Loop 核心生命周期 — Turn / Step 状态机",
+    "locale": "zh-CN",
+    "output": ".archify/lifecycle-agent-loop-20261010-085534/agent-loop.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "provider": "github",
+      "revision": "ddefc45fbc7f8e46dd73185e68295696d1297887"
+    }
+  },
+  "lanes": [
+    { "id": "main", "label": "Turn 主轨" },
+    { "id": "waiting", "label": "审批等待" },
+    { "id": "recovery", "label": "请求重试" },
+    { "id": "terminal", "label": "终态" }
+  ],
+  "states": [
+    {
+      "id": "t-open",
+      "type": "start",
+      "label": "Turn 开启",
+      "sublabel": "turn/start · 认领输入",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 88, "end_line": 91, "label": "turn/start 后认领输入" }
+      ]
+    },
+    {
+      "id": "t-asm",
+      "type": "decision",
+      "label": "组装与 pre-step",
+      "sublabel": "prompt 组装 · enter/reject",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 91, "end_line": 93, "label": "组装后 agent/pre-step 裁决" }
+      ]
+    },
+    {
+      "id": "t-step",
+      "type": "active",
+      "label": "Step 请求与流式",
+      "sublabel": "prepareCall · 准入 · llm/stream",
+      "lane": "main",
+      "col": 2,
+      "step": "03",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 94, "end_line": 99, "label": "step/start → 请求准备与流式" }
+      ]
+    },
+    {
+      "id": "t-tools",
+      "type": "active",
+      "label": "工具执行",
+      "sublabel": "tool/call · 守卫管线",
+      "lane": "main",
+      "col": 3,
+      "step": "04",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 102, "label": "tool/call → tools/* → tool/result" }
+      ]
+    },
+    {
+      "id": "t-close",
+      "type": "neutral",
+      "label": "结算收尾",
+      "sublabel": "step/end · turn-stopping",
+      "lane": "main",
+      "col": 4,
+      "step": "05",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 103, "end_line": 106, "label": "step/end 与 turn-stopping" }
+      ]
+    },
+    {
+      "id": "t-approval",
+      "type": "waiting",
+      "label": "审批等待",
+      "sublabel": "ctx.approval 一次性询问",
+      "lane": "waiting",
+      "col": 3,
+      "sources": [
+        { "path": "docs/tool-execution-pipeline.md", "line": 13, "end_line": 16, "label": "pre-execute ask 进入审批" },
+        { "path": "docs/tool-execution-pipeline.md", "line": 38, "end_line": 40, "label": "允许回管线 / 拒绝跳过" }
+      ]
+    },
+    {
+      "id": "t-retry",
+      "type": "active",
+      "label": "重试准备",
+      "sublabel": "assistant/attempt · 保留组装",
+      "lane": "recovery",
+      "col": 2,
+      "sources": [
+        { "path": "docs/agent-lifecycle.md", "line": 46, "end_line": 51, "label": "request-error 后同组装重试" }
+      ]
+    },
+    {
+      "id": "t-nostep",
+      "type": "neutral",
+      "label": "无 Step 关闭",
+      "sublabel": "拒绝/空首批 → turn/end",
+      "lane": "terminal",
+      "col": 1,
+      "sources": [
+        { "path": "docs/architecture.md", "line": 93, "label": "拒绝或空首批不开 step" }
+      ]
+    },
+    {
+      "id": "t-aborted",
+      "type": "failure",
+      "label": "Turn 中止",
+      "sublabel": "取消 · 插件失败",
+      "lane": "terminal",
+      "col": 3,
+      "sources": [
+        { "path": "packages/core/agent-loop/README.md", "line": 125, "label": "插件失败直接关闭 turn" },
+        { "path": "packages/core/agent-loop/README.md", "line": 75, "label": "取消保留已交付文本" }
+      ]
+    },
+    {
+      "id": "t-done",
+      "type": "success",
+      "label": "Turn 完成",
+      "sublabel": "turn/end · 转 idle",
+      "lane": "terminal",
+      "col": 4,
+      "sources": [
+        { "path": "docs/architecture.md", "line": 105, "end_line": 107, "label": "turn-stopping 后 turn/end" },
+        { "path": "docs/agent-lifecycle.md", "line": 79, "end_line": 80, "label": "turn/end 后状态 idle" }
+      ]
+    }
+  ],
+  "transitions": [
+    { "id": "tr-open-asm", "from": "t-open", "to": "t-asm", "label": "认领输入" },
+    { "id": "tr-asm-step", "from": "t-asm", "to": "t-step", "label": "enter" },
+    { "id": "tr-step-tools", "from": "t-step", "to": "t-tools", "label": "tool/call" },
+    { "id": "tr-tools-close", "from": "t-tools", "to": "t-close", "label": "step/end" },
+    { "id": "tr-close-done", "from": "t-close", "to": "t-done", "label": "无欠账" },
+    { "id": "tr-tools-asm", "from": "t-tools", "to": "t-asm", "label": "另欠请求/新输入", "route": "top-channel" },
+    { "id": "tr-asm-nostep", "from": "t-asm", "to": "t-nostep", "variant": "security", "label": "拒绝/空首批" },
+    { "id": "tr-step-retry", "from": "t-step", "to": "t-retry", "variant": "dashed", "label": "request-error" },
+    { "id": "tr-retry-step", "from": "t-retry", "to": "t-step", "label": "同组装重试" },
+    { "id": "tr-tools-approval", "from": "t-tools", "to": "t-approval", "variant": "security", "label": "ask" },
+    { "id": "tr-approval-tools", "from": "t-approval", "to": "t-tools", "label": "allowed-once" },
+    { "id": "tr-approval-deny", "from": "t-approval", "to": "t-tools", "label": "拒绝→跳过体" },
+    { "id": "tr-step-aborted", "from": "t-step", "to": "t-aborted", "variant": "security", "label": "取消/插件失败" },
+    { "id": "tr-tools-aborted", "from": "t-tools", "to": "t-aborted", "variant": "dashed", "label": "取消" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Turn 与 Step",
+      "items": [
+        "turn 在首批输入被认领前开启，无欠账即关闭",
+        "step = 一次模型请求 + 它调用的工具",
+        "工具另欠请求或 next-step 输入到达 → 认领并进入下一 step"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "等待与恢复",
+      "items": [
+        "审批是一次性询问：缺席或无法应答即拒绝",
+        "请求失败经 agent/request-error 返回 retry 才重试",
+        "重试不重复组装、pre-step 或用户准入"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "终态",
+      "items": [
+        "拒绝或空首批：turn 不含 step 直接关闭",
+        "取消时已流式交付的文本保留",
+        "未分发的工具调用得到 ABORTED_BEFORE_DISPATCH 合成结果"
+      ]
+    }
+  ]
+}

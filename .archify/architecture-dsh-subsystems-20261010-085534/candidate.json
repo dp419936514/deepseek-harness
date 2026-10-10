@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "DeepSeek Harness — 子系统与技术栈总览",
+    "locale": "zh-CN",
+    "output": ".archify/architecture-dsh-subsystems-20261010-085534/dsh-subsystems.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "provider": "github",
+      "revision": "ddefc45fbc7f8e46dd73185e68295696d1297887"
+    }
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "使用者",
+      "sublabel": "开发者 · 自动化系统",
+      "pos": [18, 340],
+      "size": [128, 74]
+    },
+    {
+      "id": "web",
+      "type": "frontend",
+      "label": "Web GUI",
+      "sublabel": "Vite + React SPA",
+      "tag": "apps/web",
+      "sources": [
+        { "path": "apps/web/package.json", "line": 2, "end_line": 3, "label": "Vite 构建产物由 dsh web 服务" },
+        { "path": "apps/web/package.json", "line": 54, "end_line": 57, "label": "React 18 + Vite 6" }
+      ],
+      "pos": [195, 25],
+      "size": [132, 58]
+    },
+    {
+      "id": "desktop",
+      "type": "frontend",
+      "label": "桌面应用",
+      "sublabel": "Electron · 打包 dsh 运行时",
+      "tag": "profiles/desktop",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 53, "end_line": 55, "label": "Electron 携带签名 dsh 运行时" }
+      ],
+      "pos": [195, 125],
+      "size": [168, 64]
+    },
+    {
+      "id": "cli",
+      "type": "frontend",
+      "label": "dsh CLI",
+      "sublabel": "Node.js · tsx 源码启动",
+      "tag": "web·headless·sdk·acp",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 45, "end_line": 47, "label": "五个 profile 经 dsh 启动" },
+        { "path": ".agents/notes/implemented/architecture/2026-07-29-dsh-source-launch-tsx-esm.md", "label": "CLI 源码启动走 tsx ESM" }
+      ],
+      "pos": [195, 275],
+      "size": [150, 62]
+    },
+    {
+      "id": "sdka",
+      "type": "messagebus",
+      "label": "SDK · ACP 接口",
+      "sublabel": "TS/Python · JSON-RPC stdio",
+      "tag": "profile: sdk / acp",
+      "sources": [
+        { "path": "python/README.md", "line": 5, "label": "NDJSON JSON-RPC over stdio" },
+        { "path": "packages/README.md", "line": 76, "end_line": 77, "label": "SDK JSON-RPC 与 ACP 服务器" },
+        { "path": "docs/architecture.md", "line": 45, "label": "TS SDK 选择 sdk profile" }
+      ],
+      "pos": [430, 420],
+      "size": [176, 64]
+    },
+    {
+      "id": "webhook",
+      "type": "messagebus",
+      "label": "Webhook 入口",
+      "sublabel": "受信规则启动会话",
+      "sources": [
+        { "path": "packages/README.md", "line": 57, "label": "验证外部事件与受信规则" },
+        { "path": "docs/architecture.md", "line": 150, "label": "受信规则触发 Workspace Session" }
+      ],
+      "pos": [700, 640],
+      "size": [150, 58]
+    },
+    {
+      "id": "host",
+      "type": "backend",
+      "label": "Web Host",
+      "sublabel": "API 网关 + HTTP 路由",
+      "sources": [
+        { "path": "packages/README.md", "line": 80, "label": "API 网关 + HTTP 路由服务器" },
+        { "path": "docs/architecture.md", "line": 55, "label": "桌面经 Node IPC 连接 Host" }
+      ],
+      "pos": [430, 40],
+      "size": [158, 70]
+    },
+    {
+      "id": "boot",
+      "type": "backend",
+      "label": "Boot · Cordis 内核",
+      "sublabel": "profile/bundle 层叠 patch",
+      "tag": "vendored Cordis",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 17, "end_line": 29, "label": "profile 与 bundle 有序层叠" },
+        { "path": "vendor/README.md", "line": 3, "end_line": 5, "label": "源码内嵌 Cordis 框架" }
+      ],
+      "pos": [430, 275],
+      "size": [168, 78]
+    },
+    {
+      "id": "teams",
+      "type": "backend",
+      "label": "子代理与编排",
+      "sublabel": "subagent · Teams · workflow",
+      "sources": [
+        { "path": "packages/README.md", "line": 53, "end_line": 56, "label": "subagent/workflow/jobs 能力族" },
+        { "path": "docs/architecture.md", "line": 135, "label": "Agent Teams 协作 seam" }
+      ],
+      "pos": [430, 560],
+      "size": [180, 66]
+    },
+    {
+      "id": "loop",
+      "type": "backend",
+      "label": "Agent Loop",
+      "sublabel": "turn/step 状态机 · ctx.agentLoop",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 66, "end_line": 67, "label": "Agent 接口与默认驱动" },
+        { "path": "packages/core/agent-loop/README.md", "line": 12, "label": "驱动 turn：请求·流式·工具" }
+      ],
+      "pos": [690, 240],
+      "size": [210, 96]
+    },
+    {
+      "id": "llm",
+      "type": "backend",
+      "label": "LLM 适配层",
+      "sublabel": "ctx.llm · 流式适配",
+      "tag": "deepseek-official",
+      "sources": [
+        { "path": "packages/llm/README.md", "line": 27, "end_line": 29, "label": "provider 无关服务 + 适配器" },
+        { "path": "docs/architecture.md", "line": 69, "label": "消息/流词表与适配 seam" }
+      ],
+      "pos": [950, 80],
+      "size": [168, 64]
+    },
+    {
+      "id": "deepseek",
+      "type": "cloud",
+      "label": "DeepSeek API",
+      "sublabel": "Messages / Chat Completions",
+      "sources": [
+        { "path": "packages/llm/llm-deepseek/README.md", "line": 12, "label": "默认 Messages，可选 Chat Completions" },
+        { "path": "packages/llm/llm-deepseek/README.md", "line": 28, "label": "注册 deepseek-official 路由" }
+      ],
+      "pos": [1470, 82],
+      "size": [176, 58]
+    },
+    {
+      "id": "session",
+      "type": "database",
+      "label": "Session 事件日志",
+      "sublabel": "append-only JSONL + zstd",
+      "tag": "SQLite FTS 检索",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 63, "label": "append-only SessionEvent 日志" },
+        { "path": "docs/architecture.md", "line": 121, "end_line": 123, "label": "deriveMessages 与 JSONL/zstd" },
+        { "path": "packages/README.md", "line": 71, "label": "session-query SQLite 全文检索" }
+      ],
+      "pos": [940, 240],
+      "size": [176, 68]
+    },
+    {
+      "id": "tools",
+      "type": "security",
+      "label": "工具守卫管线",
+      "sublabel": "pre/execute/post · 守卫+审批",
+      "tag": "ctx.tools",
+      "sources": [
+        { "path": "docs/architecture.md", "line": 65, "label": "作用域注册表与守卫执行管线" },
+        { "path": "docs/tool-execution-pipeline.md", "line": 6, "label": "三段 waterfall + 守卫" }
+      ],
+      "pos": [950, 430],
+      "size": [176, 78]
+    },
+    {
+      "id": "devtools",
+      "type": "backend",
+      "label": "模型工具生态",
+      "sublabel": "fs · LSP(stdio) · web · MCP",
+      "sources": [
+        { "path": "packages/README.md", "line": 48, "end_line": 49, "label": "fs 与 LSP(stdio) 工具" },
+        { "path": "packages/README.md", "line": 58, "label": "web 搜索/抓取工具" },
+        { "path": "packages/README.md", "line": 68, "label": "MCP 服务器暴露为原生工具" }
+      ],
+      "pos": [915, 580],
+      "size": [180, 72]
+    },
+    {
+      "id": "exec",
+      "type": "backend",
+      "label": "本地执行域",
+      "sublabel": "bash · 子进程 · PTY 终端",
+      "tag": "PTC: 沙箱 Node",
+      "sources": [
+        { "path": "packages/README.md", "line": 39, "label": "subprocess 本地进程树 provider" },
+        { "path": "packages/README.md", "line": 41, "end_line": 43, "label": "bash/PTY/PTC 能力族" }
+      ],
+      "pos": [1250, 400],
+      "size": [168, 72]
+    },
+    {
+      "id": "sandbox",
+      "type": "security",
+      "label": "进程沙箱",
+      "sublabel": "bwrap · Landlock · Seatbelt",
+      "sources": [
+        { "path": "packages/README.md", "line": 46, "label": "沙箱后端 bwrap/Landlock/Seatbelt" },
+        { "path": "docs/architecture.md", "line": 152, "label": "spawn 前 argv 封装" }
+      ],
+      "pos": [1250, 545],
+      "size": [176, 62]
+    },
+    {
+      "id": "ssh",
+      "type": "backend",
+      "label": "SSH 远程执行域",
+      "sublabel": "远程 fs/subprocess/sandbox",
+      "sources": [
+        { "path": "packages/README.md", "line": 40, "label": "POSIX 远程配套 providers" }
+      ],
+      "pos": [1250, 665],
+      "size": [172, 60]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Cordis 插件树 — dsh Node.js 进程（TypeScript ESM · 一切皆插件）",
+      "wraps": ["host", "boot", "teams", "loop", "llm", "session", "tools", "devtools", "exec", "sandbox", "ssh"]
+    }
+  ],
+  "connections": [
+    { "id": "e-user-web", "from": "user", "to": "web", "label": "浏览器" },
+    { "id": "e-user-desktop", "from": "user", "to": "desktop", "label": "桌面窗口", "fromSide": "top", "toSide": "left" },
+    { "id": "e-user-cli", "from": "user", "to": "cli", "label": "终端命令", "fromSide": "right", "toSide": "left" },
+    { "id": "e-user-sdka", "from": "user", "to": "sdka", "label": "程序接入", "fromSide": "bottom", "toSide": "left" },
+    { "id": "e-web-host", "from": "web", "to": "host", "label": "RPC/事件流" },
+    { "id": "e-desktop-host", "from": "desktop", "to": "host", "label": "Node IPC", "fromSide": "right", "toSide": "bottom" },
+    { "id": "e-cli-boot", "from": "cli", "to": "boot", "label": "dsh 启动" },
+    { "id": "e-host-loop", "from": "host", "to": "loop", "label": "ctx.agents 驱动", "fromSide": "right", "toSide": "top" },
+    { "id": "e-boot-loop", "from": "boot", "to": "loop", "label": "组合插件树" },
+    { "id": "e-sdka-loop", "from": "sdka", "to": "loop", "label": "JSON-RPC 驱动", "fromSide": "right", "toSide": "bottom" },
+    { "id": "e-webhook-loop", "from": "webhook", "to": "loop", "label": "受信规则启动", "fromSide": "right", "toSide": "bottom" },
+    { "id": "e-teams-loop", "from": "teams", "to": "loop", "label": "子 Agent 创建", "fromSide": "right", "toSide": "bottom" },
+    { "id": "e-loop-llm", "from": "loop", "to": "llm", "label": "llm/stream 流式请求", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "e-llm-deepseek", "from": "llm", "to": "deepseek", "label": "流式调用" },
+    { "id": "e-loop-session", "from": "loop", "to": "session", "fromSide": "right", "toSide": "left" },
+    { "id": "e-loop-tools", "from": "loop", "to": "tools", "label": "tool/call 分发", "fromSide": "right", "toSide": "top" },
+    { "id": "e-devtools-tools", "from": "devtools", "to": "tools", "fromSide": "top", "toSide": "bottom" },
+    { "id": "e-tools-exec", "from": "tools", "to": "exec", "label": "spawn 子进程" },
+    { "id": "e-tools-ssh", "from": "tools", "to": "ssh", "label": "远程执行", "fromSide": "bottom", "toSide": "left" },
+    { "id": "e-exec-sandbox", "from": "exec", "to": "sandbox", "label": "约束", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "插件化组合",
+      "items": [
+        "一切皆 Cordis 插件：模型适配、工具、会话日志、agent loop 本身都可从配置替换",
+        "profile 叠加 bundle 与 cordis.patch.yml，层层可 patch",
+        "dsh-base 是 web/headless/sdk/acp 的公共首层"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Agent Loop 与会话日志",
+      "items": [
+        "turn = 零或多个 step；step = 一次模型请求 + 它调用的工具",
+        "会话日志是模型上下文的唯一来源：model-visible ⟺ logged",
+        "live agent/* 事件负责观测与拦截，durable session 事件负责重放"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "能力 seam 与执行世界",
+      "items": [
+        "能力 seam 由 Service Definition / Provider / Consumer 三角色构成",
+        "fs 与 subprocess 共享一个执行世界：整体切到远程沙箱无需 provider 分叉",
+        "subagent 到 Agent Teams 都经同一接口协作"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "安全与约束",
+      "items": [
+        "守卫管线：pre-execute waterfall → 单调守卫 → execute / post-execute",
+        "ctx.approval 一次性审批：缺席或无法应答即拒绝",
+        "沙箱后端 bwrap / Landlock / Seatbelt 在 spawn 前封装 argv"
+      ]
+    }
+  ]
+}
