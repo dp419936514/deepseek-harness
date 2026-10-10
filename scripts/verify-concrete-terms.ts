@@ -7,7 +7,9 @@ import { pathToFileURL } from 'node:url'
 
 const root = resolve(import.meta.dirname, '..')
 const blockedTerm = 'prove' + 'nance'
-const excludedPrefixes = ['vendor/', '.agents/notes/archived/'] as const
+// `.archify/` receipts are diagram-tool output recording its own field names
+// and flags; that evidence is metadata, not maintained prose.
+const excludedPrefixes = ['vendor/', '.agents/notes/archived/', '.archify/'] as const
 
 /** One blocked term occurrence in a tracked path or text line. */
 export interface ConcreteTermViolation {

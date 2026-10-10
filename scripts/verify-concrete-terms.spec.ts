@@ -52,16 +52,24 @@ describe('concrete terminology policy', () => {
     )).toEqual([])
   })
 
-  it('excludes vendored sources and frozen Agent Notes', () => {
+  it('excludes vendored sources, frozen Agent Notes, and diagram-tool receipts', () => {
     expect(findConcreteTermViolations(`vendor/example/${blockedTerm}.ts`, blockedTerm)).toEqual([])
     expect(findConcreteTermViolations(
       `.agents/notes/archived/process/${blockedTerm}.md`,
       blockedTerm,
     )).toEqual([])
     expect(findConcreteTermViolations(
+      `.archify/architecture-20260101/${blockedTerm}.finalize.json`,
+      blockedTerm,
+    )).toEqual([])
+    expect(findConcreteTermViolations(
       '.agents/notes/implemented/process/current.md',
       blockedTerm,
     )).toEqual([{ file: '.agents/notes/implemented/process/current.md', line: 1 }])
+    expect(findConcreteTermViolations(
+      `.archify-notes/${blockedTerm}.md`,
+      blockedTerm,
+    )).toEqual([{ file: `.archify-notes/${blockedTerm}.md`, line: null }, { file: `.archify-notes/${blockedTerm}.md`, line: 1 }])
   })
 
   it('preserves historical identifiers only in alpha and RC release schema snapshots', () => {
