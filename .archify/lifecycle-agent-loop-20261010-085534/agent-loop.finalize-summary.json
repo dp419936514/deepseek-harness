@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "lifecycle",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/candidate.json",
+    "sha256": "6fb2d2b68d8cc1c9936381900a4c95d12120b77de5d8058d25571c7721ff617e",
+    "bytes": 6704
+  },
+  "artifact": {
+    "path": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/agent-loop.html",
+    "sha256": "e7e637aef0233e376c4a46bb7fb2a829d7548f720cb49e10f256cbaf1ff51951",
+    "bytes": 773661
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/agent-loop.finalize.json",
+    "summaryReceipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/agent-loop.finalize-summary.json",
+    "browserCheckReceipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/agent-loop.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1916,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 2,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "tr-tools-asm",
+            "from": "t-tools",
+            "to": "t-asm",
+            "label": "另欠请求/新输入",
+            "collectionIndex": 5,
+            "artifactIndex": 6
+          },
+          "bends": 2,
+          "stretch": 1.446,
+          "directCorridorBlockers": [
+            {
+              "id": "t-step",
+              "label": "Step 请求与流式",
+              "box": [
+                465,
+                56,
+                140,
+                64
+              ]
+            }
+          ]
+        },
+        {
+          "relationship": {
+            "id": "tr-step-aborted",
+            "from": "t-step",
+            "to": "t-aborted",
+            "label": "取消/插件失败",
+            "collectionIndex": 12,
+            "artifactIndex": 13
+          },
+          "bends": 4,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "tr-tools-aborted",
+            "from": "t-tools",
+            "to": "t-aborted",
+            "label": "取消",
+            "collectionIndex": 13,
+            "artifactIndex": 14
+          },
+          "bends": 4,
+          "stretch": 1.226,
+          "directCorridorBlockers": [
+            {
+              "id": "t-approval",
+              "label": "审批等待",
+              "box": [
+                676,
+                240,
+                140,
+                64
+              ]
+            }
+          ]
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "t-step → t-aborted needs 4 bends: move node t-step or t-aborted so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

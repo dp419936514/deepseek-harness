@@ -47,12 +47,3 @@ worktrees/
 .agents/worktrees/
 .typert-*/
 native/system/test/bin/
-.archify/*
-!.archify/export-via-ui.mjs
-!.archify/check-tile.mjs
-!.archify/architecture-dsh-subsystems-20261010-085534/
-.archify/architecture-dsh-subsystems-20261010-085534/*
-!.archify/architecture-dsh-subsystems-20261010-085534/candidate.json
-!.archify/lifecycle-agent-loop-20261010-085534/
-.archify/lifecycle-agent-loop-20261010-085534/*
-!.archify/lifecycle-agent-loop-20261010-085534/candidate.json

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/candidate.json",
+    "sha256": "949889691cfcc6bcf8101084e38f7da5220676fe3d401d3670c4ee8b4d4163ae",
+    "bytes": 12397
+  },
+  "artifact": {
+    "path": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/review-2/dsh-subsystems.html",
+    "sha256": "0d878d2fecba87fda75266d3c9708ff1d7a8d221690f9f5772625e45bf3b4f39",
+    "bytes": 798957
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/review-2/dsh-subsystems.finalize.json",
+    "summaryReceipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/review-2/dsh-subsystems.finalize-summary.json",
+    "browserCheckReceipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/review-2/dsh-subsystems.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1816,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 1,
+      "routesOverSuggestedBends": 4,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "e-loop-session",
+            "from": "loop",
+            "to": "session",
+            "label": "",
+            "collectionIndex": 14,
+            "artifactIndex": 15
+          },
+          "right": {
+            "id": "e-loop-tools",
+            "from": "loop",
+            "to": "tools",
+            "label": "tool/call 分发",
+            "collectionIndex": 15,
+            "artifactIndex": 16
+          },
+          "point": [
+            920,
+            302.72727272727275
+          ],
+          "sharedNode": "loop"
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "e-webhook-loop",
+            "from": "webhook",
+            "to": "loop",
+            "label": "受信规则启动",
+            "collectionIndex": 10,
+            "artifactIndex": 11
+          },
+          "bends": 3,
+          "stretch": 1.128
+        },
+        {
+          "relationship": {
+            "id": "e-loop-tools",
+            "from": "loop",
+            "to": "tools",
+            "label": "tool/call 分发",
+            "collectionIndex": 15,
+            "artifactIndex": 16
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "e-tools-ssh",
+            "from": "tools",
+            "to": "ssh",
+            "label": "远程执行",
+            "collectionIndex": 18,
+            "artifactIndex": 19
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "e-exec-sandbox",
+            "from": "exec",
+            "to": "sandbox",
+            "label": "约束",
+            "collectionIndex": 19,
+            "artifactIndex": 20
+          },
+          "bends": 4,
+          "stretch": 1.416
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "loop → session and loop → tools cross next to loop: move node session or tools so the two reach loop from different sides (for example one level with it, one directly above or below it).",
+      "webhook → loop needs 3 bends: move node webhook or loop so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "loop → tools needs 3 bends: move node loop or tools so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "tools → ssh needs 3 bends: move node tools or ssh so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "exec → sandbox needs 4 bends: move node exec or sandbox so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

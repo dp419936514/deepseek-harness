@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "5678d2f7-7aa4-40ec-96ab-1e1864683180",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/candidate.json",
+  "output": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/review-2/dsh-subsystems.html",
+  "specification": {
+    "sha256": "949889691cfcc6bcf8101084e38f7da5220676fe3d401d3670c4ee8b4d4163ae",
+    "bytes": 12397
+  },
+  "artifact": {
+    "sha256": "0d878d2fecba87fda75266d3c9708ff1d7a8d221690f9f5772625e45bf3b4f39",
+    "bytes": 798957
+  }
+}

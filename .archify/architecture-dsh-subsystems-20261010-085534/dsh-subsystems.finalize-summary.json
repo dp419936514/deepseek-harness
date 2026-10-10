@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/candidate.json",
+    "sha256": "0e18612187e198bbec7d1070be7aa2a482c6e64b0cb4037381ce20c46ac92edb",
+    "bytes": 12397
+  },
+  "artifact": {
+    "path": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/dsh-subsystems.html",
+    "sha256": "40880ac75ae13a431a36c0a632ba7ef35f50b330caf190120fcb8a65f998ce9d",
+    "bytes": 798825
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/dsh-subsystems.finalize.json",
+    "summaryReceipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/dsh-subsystems.finalize-summary.json",
+    "browserCheckReceipt": "/home/pdai/dsh-workspace/deepseek-harness/.archify/architecture-dsh-subsystems-20261010-085534/dsh-subsystems.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-unavailable"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1822,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 3,
+      "routesOverSuggestedBends": 3,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "e-sdka-loop",
+            "from": "sdka",
+            "to": "loop",
+            "label": "JSON-RPC 驱动",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "right": {
+            "id": "e-webhook-loop",
+            "from": "webhook",
+            "to": "loop",
+            "label": "受信规则启动",
+            "collectionIndex": 10,
+            "artifactIndex": 11
+          },
+          "point": [
+            781,
+            452
+          ],
+          "sharedNode": "loop"
+        },
+        {
+          "left": {
+            "id": "e-webhook-loop",
+            "from": "webhook",
+            "to": "loop",
+            "label": "受信规则启动",
+            "collectionIndex": 10,
+            "artifactIndex": 11
+          },
+          "right": {
+            "id": "e-teams-loop",
+            "from": "teams",
+            "to": "loop",
+            "label": "子 Agent 创建",
+            "collectionIndex": 11,
+            "artifactIndex": 12
+          },
+          "point": [
+            781,
+            593
+          ],
+          "sharedNode": "loop"
+        },
+        {
+          "left": {
+            "id": "e-loop-session",
+            "from": "loop",
+            "to": "session",
+            "label": "",
+            "collectionIndex": 14,
+            "artifactIndex": 15
+          },
+          "right": {
+            "id": "e-loop-tools",
+            "from": "loop",
+            "to": "tools",
+            "label": "tool/call 分发",
+            "collectionIndex": 15,
+            "artifactIndex": 16
+          },
+          "point": [
+            924,
+            312.6
+          ],
+          "sharedNode": "loop"
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "e-loop-tools",
+            "from": "loop",
+            "to": "tools",
+            "label": "tool/call 分发",
+            "collectionIndex": 15,
+            "artifactIndex": 16
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "e-tools-ssh",
+            "from": "tools",
+            "to": "ssh",
+            "label": "远程执行",
+            "collectionIndex": 18,
+            "artifactIndex": 19
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "e-exec-sandbox",
+            "from": "exec",
+            "to": "sandbox",
+            "label": "约束",
+            "collectionIndex": 19,
+            "artifactIndex": 20
+          },
+          "bends": 4,
+          "stretch": 1.416
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "sdka → loop and webhook → loop cross next to loop: move node sdka or webhook so the two reach loop from different sides (for example one level with it, one directly above or below it).",
+      "webhook → loop and teams → loop cross next to loop: move node webhook or teams so the two reach loop from different sides (for example one level with it, one directly above or below it).",
+      "loop → session and loop → tools cross next to loop: move node session or tools so the two reach loop from different sides (for example one level with it, one directly above or below it).",
+      "loop → tools needs 3 bends: move node loop or tools so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "tools → ssh needs 3 bends: move node tools or ssh so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "exec → sandbox needs 4 bends: move node exec or sandbox so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

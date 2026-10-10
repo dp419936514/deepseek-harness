@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "3fd0ec75-ee93-4efd-85d9-c1acd896a886",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/candidate.json",
+  "output": "/home/pdai/dsh-workspace/deepseek-harness/.archify/lifecycle-agent-loop-20261010-085534/agent-loop.html",
+  "specification": {
+    "sha256": "6fb2d2b68d8cc1c9936381900a4c95d12120b77de5d8058d25571c7721ff617e",
+    "bytes": 6704
+  },
+  "artifact": {
+    "sha256": "e7e637aef0233e376c4a46bb7fb2a829d7548f720cb49e10f256cbaf1ff51951",
+    "bytes": 773661
+  }
+}
